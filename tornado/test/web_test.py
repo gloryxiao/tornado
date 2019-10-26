@@ -1175,7 +1175,6 @@ class StaticFileTest(WebTestCase):
         )
         self.assertEqual(response2.code, 304)
         self.assertTrue("Content-Length" not in response2.headers)
-        self.assertTrue("Last-Modified" not in response2.headers)
 
     def test_static_304_if_none_match(self):
         response1 = self.get_and_head("/static/robots.txt")
@@ -3106,6 +3105,10 @@ class URLSpecReverseTest(unittest.TestCase):
     def test_reverse_arguments(self):
         self.assertEqual(
             "/api/v1/foo/bar", url(r"^/api/v1/foo/(\w+)$", None).reverse("bar")
+        )
+        self.assertEqual(
+            "/api.v1/foo/5/icon.png",
+            url(r"/api\.v1/foo/([0-9]+)/icon\.png", None).reverse(5),
         )
 
 
